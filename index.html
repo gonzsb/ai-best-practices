@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Best Practices</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Fira+Code:wght@300;400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
@@ -13,30 +11,52 @@
   --ink: #0e0e0e;
   --paper: #f5f2ed;
   --paper-warm: #ede9e2;
-  --rule: rgba(14,14,14,0.12);
-  --rule-strong: rgba(14,14,14,0.25);
-  --accent: #1a1a2e;
-  --cat-prompting: #2d4a3e;
-  --cat-architecture: #1a2a4a;
-  --cat-evaluation: #3d2a1a;
-  --cat-governance: #2a1a3d;
-  --cat-default: #1a1a2e;
-  --mono: 'Fira Code', monospace;
-  --display: 'Syne', sans-serif;
-  --body: 'Spectral', serif;
+  --rule: rgba(14,14,14,0.1);
+  --rule-strong: rgba(14,14,14,0.22);
+  --cat-tips: #1a3a2a;
+  --cat-prompting: #1a1a3a;
+  --cat-creative: #3a1a2a;
+  --cat-default: #1a1a1a;
+  --font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --max: 1320px;
-  --col: calc((var(--max) - 4rem) / 12);
 }
 
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: var(--body);
+  font-family: var(--font);
   background: var(--paper);
   color: var(--ink);
-  font-size: 18px;
-  line-height: 1.65;
+  font-size: 16px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+}
+
+/* ─── TICKER ─── */
+.ticker-wrap {
+  background: var(--ink);
+  color: var(--paper);
+  overflow: hidden;
+  height: 32px;
+  display: flex;
+  align-items: center;
+}
+.ticker-inner {
+  display: flex;
+  align-items: center;
+  animation: ticker 50s linear infinite;
+  white-space: nowrap;
+}
+.ticker-item {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0 3rem;
+  border-right: 1px solid rgba(245,242,237,0.12);
+}
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
 /* ─── HEADER ─── */
@@ -50,34 +70,29 @@ body {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  height: 60px;
+  height: 58px;
 }
-
 .site-logo {
-  font-family: var(--display);
-  font-weight: 800;
-  font-size: 15px;
+  font-size: 13px;
+  font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--ink);
-  text-decoration: none;
   cursor: pointer;
+  text-transform: uppercase;
 }
-
 .site-title {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.18em;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--ink);
   text-align: center;
   cursor: pointer;
 }
-
 .site-meta {
-  font-family: var(--mono);
   font-size: 9px;
   letter-spacing: 0.12em;
-  color: rgba(14,14,14,0.4);
+  color: rgba(14,14,14,0.35);
   text-align: right;
   text-transform: uppercase;
 }
@@ -88,33 +103,28 @@ body {
   padding: 0 2rem;
   display: flex;
   align-items: center;
-  gap: 0;
   overflow-x: auto;
   scrollbar-width: none;
   background: var(--paper);
 }
 .filter-bar::-webkit-scrollbar { display: none; }
-
 .filter-btn {
-  font-family: var(--mono);
   font-size: 9px;
-  letter-spacing: 0.16em;
+  font-weight: 500;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  padding: 12px 18px;
+  padding: 12px 16px;
   background: transparent;
   border: none;
   border-bottom: 2px solid transparent;
   margin-bottom: -1px;
-  color: rgba(14,14,14,0.4);
+  color: rgba(14,14,14,0.35);
   cursor: pointer;
   transition: color 0.15s;
   white-space: nowrap;
 }
 .filter-btn:hover { color: var(--ink); }
-.filter-btn.active {
-  color: var(--ink);
-  border-bottom-color: var(--ink);
-}
+.filter-btn.active { color: var(--ink); border-bottom-color: var(--ink); }
 
 /* ─── SEARCH ─── */
 .search-wrap {
@@ -125,15 +135,15 @@ body {
   gap: 12px;
 }
 .search-label {
-  font-family: var(--mono);
   font-size: 9px;
-  letter-spacing: 0.14em;
+  font-weight: 500;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(14,14,14,0.35);
+  color: rgba(14,14,14,0.3);
   white-space: nowrap;
 }
 .search-input {
-  font-family: var(--mono);
+  font-family: var(--font);
   font-size: 12px;
   background: transparent;
   border: none;
@@ -145,37 +155,9 @@ body {
   transition: border-color 0.15s;
 }
 .search-input:focus { border-bottom-color: var(--ink); }
-.search-input::placeholder { color: rgba(14,14,14,0.25); }
+.search-input::placeholder { color: rgba(14,14,14,0.2); }
 
-/* ─── TICKER ─── */
-.ticker-wrap {
-  background: var(--ink);
-  color: var(--paper);
-  overflow: hidden;
-  height: 34px;
-  display: flex;
-  align-items: center;
-}
-.ticker-inner {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  animation: ticker 40s linear infinite;
-  white-space: nowrap;
-}
-.ticker-item {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  padding: 0 3rem;
-  border-right: 1px solid rgba(245,242,237,0.15);
-}
-@keyframes ticker {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-/* ─── MAIN LAYOUT ─── */
+/* ─── MAIN ─── */
 main {
   max-width: var(--max);
   margin: 0 auto;
@@ -186,7 +168,6 @@ main {
 .featured-article {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0;
   border: 1px solid var(--rule-strong);
   margin-bottom: 3rem;
   cursor: pointer;
@@ -195,8 +176,7 @@ main {
 .featured-article:hover { background: var(--paper-warm); }
 
 .featured-visual {
-  background: var(--accent);
-  min-height: 380px;
+  min-height: 360px;
   display: flex;
   align-items: flex-end;
   padding: 2rem;
@@ -209,17 +189,17 @@ main {
   background-image:
     linear-gradient(rgba(245,242,237,0.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(245,242,237,0.04) 1px, transparent 1px);
-  background-size: 40px 40px;
+  background-size: 36px 36px;
 }
 .featured-cat-label {
   position: relative;
-  font-family: var(--mono);
   font-size: 9px;
-  letter-spacing: 0.18em;
+  font-weight: 500;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: rgba(245,242,237,0.5);
   padding: 5px 10px;
-  border: 1px solid rgba(245,242,237,0.2);
+  border: 1px solid rgba(245,242,237,0.18);
 }
 .featured-body {
   padding: 2.5rem;
@@ -228,28 +208,26 @@ main {
   justify-content: space-between;
 }
 .featured-kicker {
-  font-family: var(--mono);
   font-size: 9px;
+  font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(14,14,14,0.4);
+  color: rgba(14,14,14,0.35);
   margin-bottom: 1rem;
 }
 .featured-title {
-  font-family: var(--display);
-  font-weight: 800;
-  font-size: 32px;
+  font-size: 30px;
+  font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.02em;
   margin-bottom: 1.25rem;
   color: var(--ink);
 }
 .featured-tagline {
-  font-family: var(--body);
-  font-size: 16px;
-  font-style: italic;
-  color: rgba(14,14,14,0.6);
-  line-height: 1.6;
+  font-size: 15px;
+  font-weight: 300;
+  color: rgba(14,14,14,0.55);
+  line-height: 1.65;
   margin-bottom: auto;
 }
 .featured-footer {
@@ -261,15 +239,15 @@ main {
   border-top: 1px solid var(--rule);
 }
 .article-date {
-  font-family: var(--mono);
   font-size: 9px;
+  font-weight: 400;
   letter-spacing: 0.1em;
-  color: rgba(14,14,14,0.35);
+  color: rgba(14,14,14,0.3);
   text-transform: uppercase;
 }
 .read-cta {
-  font-family: var(--mono);
   font-size: 9px;
+  font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink);
@@ -277,11 +255,11 @@ main {
 
 /* ─── GRID ─── */
 .section-label {
-  font-family: var(--mono);
   font-size: 9px;
-  letter-spacing: 0.2em;
+  font-weight: 500;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(14,14,14,0.35);
+  color: rgba(14,14,14,0.3);
   margin-bottom: 1.25rem;
   display: flex;
   align-items: center;
@@ -320,33 +298,28 @@ main {
 }
 
 .card-cat {
-  font-family: var(--mono);
   font-size: 8px;
+  font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   padding: 3px 8px;
   display: inline-block;
   align-self: flex-start;
 }
-
 .card-title {
-  font-family: var(--display);
+  font-size: 18px;
   font-weight: 700;
-  font-size: 19px;
   line-height: 1.2;
   letter-spacing: -0.01em;
   color: var(--ink);
 }
-
 .card-tagline {
-  font-family: var(--body);
-  font-size: 14px;
-  font-style: italic;
-  color: rgba(14,14,14,0.55);
-  line-height: 1.55;
+  font-size: 13px;
+  font-weight: 300;
+  color: rgba(14,14,14,0.5);
+  line-height: 1.6;
   flex: 1;
 }
-
 .card-footer {
   display: flex;
   align-items: center;
@@ -355,40 +328,35 @@ main {
   border-top: 1px solid var(--rule);
   margin-top: auto;
 }
-
-.tag-list {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
+.tag-list { display: flex; gap: 6px; flex-wrap: wrap; }
 .tag {
-  font-family: var(--mono);
   font-size: 8px;
+  font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(14,14,14,0.35);
+  color: rgba(14,14,14,0.3);
   padding: 2px 6px;
   border: 1px solid var(--rule);
 }
 
-/* ─── ARTICLE DETAIL ─── */
+/* ─── DETAIL ─── */
 .detail-view {
   display: none;
-  max-width: 820px;
+  max-width: 760px;
   margin: 0 auto;
   padding: 3rem 2rem 6rem;
-  animation: fadeIn 0.35s ease both;
+  animation: fadeIn 0.3s ease both;
 }
 .detail-view.visible { display: block; }
 
 .detail-back {
-  font-family: var(--mono);
   font-size: 9px;
+  font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   background: transparent;
   border: none;
-  color: rgba(14,14,14,0.4);
+  color: rgba(14,14,14,0.35);
   cursor: pointer;
   padding: 0;
   margin-bottom: 3rem;
@@ -396,40 +364,36 @@ main {
   align-items: center;
   gap: 8px;
   transition: color 0.15s;
+  font-family: var(--font);
 }
 .detail-back:hover { color: var(--ink); }
 
 .detail-cat {
-  font-family: var(--mono);
   font-size: 9px;
+  font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   padding: 4px 10px;
   display: inline-block;
   margin-bottom: 1.5rem;
 }
-
 .detail-title {
-  font-family: var(--display);
-  font-weight: 800;
-  font-size: clamp(28px, 4vw, 48px);
+  font-size: clamp(26px, 4vw, 44px);
+  font-weight: 700;
   line-height: 1.08;
   letter-spacing: -0.025em;
   color: var(--ink);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
-
 .detail-tagline {
-  font-family: var(--body);
-  font-size: 20px;
-  font-style: italic;
-  color: rgba(14,14,14,0.6);
-  line-height: 1.55;
+  font-size: 17px;
+  font-weight: 300;
+  color: rgba(14,14,14,0.55);
+  line-height: 1.6;
   border-left: 3px solid var(--ink);
   padding-left: 1.25rem;
   margin-bottom: 2rem;
 }
-
 .detail-meta {
   display: flex;
   align-items: center;
@@ -439,22 +403,22 @@ main {
   border-bottom: 1px solid var(--rule);
   margin-bottom: 2.5rem;
 }
-
-.detail-divider {
-  height: 2px;
-  background: var(--ink);
-  margin: 3rem 0;
-}
-
 .detail-content {
-  font-family: var(--body);
-  font-size: 19px;
-  line-height: 1.8;
-  color: rgba(14,14,14,0.85);
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 1.85;
+  color: rgba(14,14,14,0.8);
 }
-.detail-content p { margin-bottom: 1.5rem; }
+.detail-content p { margin-bottom: 1.4rem; }
 .detail-content strong { color: var(--ink); font-weight: 600; }
-
+.detail-content code {
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  background: rgba(14,14,14,0.05);
+  padding: 2px 6px;
+  border-radius: 2px;
+  color: var(--ink);
+}
 .detail-tags {
   display: flex;
   gap: 8px;
@@ -465,24 +429,22 @@ main {
 }
 
 /* ─── CATEGORY COLORS ─── */
-.cat-prompting { background: rgba(45,74,62,0.1); color: var(--cat-prompting); }
-.cat-architecture { background: rgba(26,42,74,0.1); color: var(--cat-architecture); }
-.cat-evaluation { background: rgba(61,42,26,0.1); color: var(--cat-evaluation); }
-.cat-governance { background: rgba(42,26,61,0.1); color: var(--cat-governance); }
-.cat-default { background: rgba(26,26,46,0.1); color: var(--cat-default); }
+.cat-tips-tricks { background: rgba(26,58,42,0.08); color: var(--cat-tips); }
+.cat-prompting { background: rgba(26,26,58,0.08); color: var(--cat-prompting); }
+.cat-creative-ai { background: rgba(58,26,42,0.08); color: var(--cat-creative); }
+.cat-default { background: rgba(26,26,26,0.06); color: var(--cat-default); }
 
-.visual-prompting { background: var(--cat-prompting); }
-.visual-architecture { background: var(--cat-architecture); }
-.visual-evaluation { background: var(--cat-evaluation); }
-.visual-governance { background: var(--cat-governance); }
-.visual-default { background: var(--cat-default); }
+.visual-tips-tricks { background: #1a3a2a; }
+.visual-prompting { background: #1a1a3a; }
+.visual-creative-ai { background: #3a1a2a; }
+.visual-default { background: #1a1a1a; }
 
-/* ─── EMPTY / LOADING ─── */
+/* ─── STATES ─── */
 .state-msg {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  color: rgba(14,14,14,0.25);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: rgba(14,14,14,0.2);
   text-transform: uppercase;
   padding: 4rem 0;
   text-align: center;
@@ -499,51 +461,43 @@ main {
   background: var(--paper);
 }
 .footer-logo {
-  font-family: var(--display);
-  font-weight: 800;
-  font-size: 13px;
-  letter-spacing: -0.01em;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 .footer-note {
-  font-family: var(--mono);
   font-size: 9px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(14,14,14,0.35);
+  color: rgba(14,14,14,0.3);
 }
 
 /* ─── RESPONSIVE ─── */
 @media (max-width: 960px) {
   .featured-article { grid-template-columns: 1fr; }
-  .featured-visual { min-height: 200px; }
+  .featured-visual { min-height: 180px; }
   .articles-grid { grid-template-columns: 1fr 1fr; }
-  .site-header { grid-template-columns: 1fr 1fr; }
   .site-title { display: none; }
-  .site-meta { text-align: right; }
 }
 @media (max-width: 600px) {
   .articles-grid { grid-template-columns: 1fr; }
   .site-header { grid-template-columns: 1fr auto; }
-  .featured-title { font-size: 24px; }
+  .featured-title { font-size: 22px; }
   .search-input { width: 100%; }
 }
 </style>
 </head>
 <body>
 
-<!-- TICKER -->
-<div class="ticker-wrap" id="ticker-wrap">
-  <div class="ticker-inner" id="ticker-inner"></div>
-</div>
+<div class="ticker-wrap"><div class="ticker-inner" id="ticker-inner"></div></div>
 
-<!-- HEADER -->
 <header class="site-header">
   <span class="site-logo" onclick="showList()">AI Best Practices</span>
   <span class="site-title" onclick="showList()">AI&nbsp;Best&nbsp;Practices</span>
-  <span class="site-meta" id="article-count">Loading...</span>
+  <span class="site-meta" id="article-count">—</span>
 </header>
 
-<!-- FILTER + SEARCH -->
 <div id="controls-wrap">
   <nav class="filter-bar" id="filter-bar"></nav>
   <div class="search-wrap">
@@ -552,7 +506,6 @@ main {
   </div>
 </div>
 
-<!-- LIST VIEW -->
 <div id="list-view">
   <main>
     <div id="featured-slot"></div>
@@ -561,9 +514,8 @@ main {
   </main>
 </div>
 
-<!-- DETAIL VIEW -->
 <div class="detail-view" id="detail-view">
-  <div style="max-width:820px;margin:0 auto;padding:3rem 2rem 6rem;">
+  <div style="max-width:760px;margin:0 auto;padding:3rem 2rem 6rem;">
     <button class="detail-back" onclick="showList()">← All articles</button>
     <div id="detail-content-inner"></div>
   </div>
@@ -575,180 +527,156 @@ main {
 </footer>
 
 <script>
-let ALL_ARTICLES = [];
+let ALL = [];
 let activeFilter = 'All';
-let searchQuery = '';
+let searchQ = '';
 
-const catClass = cat => {
-  const map = { Prompting:'prompting', Architecture:'architecture', Evaluation:'evaluation', Governance:'governance' };
-  return map[cat] || 'default';
+const catSlug = cat => cat.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g,'-').replace(/^-|-$/g,'');
+
+const catColorClass = cat => {
+  const s = catSlug(cat);
+  const map = { 'tips-tricks':'tips-tricks', 'prompting':'prompting', 'creative-ai':'creative-ai' };
+  return map[s] || 'default';
 };
 
-const formatDate = iso => {
-  const d = new Date(iso);
-  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-};
+const fmtDate = iso => new Date(iso).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
 
 const timeAgo = iso => {
-  const diff = Math.floor((Date.now() - new Date(iso)) / 1000);
-  if (diff < 3600) return `${Math.floor(diff/60)}m ago`;
-  if (diff < 86400) return `${Math.floor(diff/3600)}h ago`;
-  if (diff < 604800) return `${Math.floor(diff/86400)}d ago`;
-  return formatDate(iso);
+  const d = Math.floor((Date.now()-new Date(iso))/1000);
+  if(d<3600) return `${Math.floor(d/60)}m ago`;
+  if(d<86400) return `${Math.floor(d/3600)}h ago`;
+  if(d<604800) return `${Math.floor(d/86400)}d ago`;
+  return fmtDate(iso);
 };
 
-function buildTicker(articles) {
-  const inner = document.getElementById('ticker-inner');
-  const items = [...articles, ...articles].map(a =>
-    `<span class="ticker-item">${a.category.toUpperCase()} — ${a.title}</span>`
-  ).join('');
-  inner.innerHTML = items;
+function buildTicker(arr) {
+  const el = document.getElementById('ticker-inner');
+  el.innerHTML = [...arr,...arr].map(a=>`<span class="ticker-item">${a.category.toUpperCase()} — ${a.title}</span>`).join('');
 }
 
-function buildFilters(articles) {
-  const cats = ['All', ...new Set(articles.map(a => a.category))];
-  const bar = document.getElementById('filter-bar');
-  bar.innerHTML = cats.map(c =>
-    `<button class="filter-btn${c === activeFilter ? ' active' : ''}" onclick="setFilter('${c}')">${c}</button>`
+function buildFilters(arr) {
+  const cats = ['All',...new Set(arr.map(a=>a.category))];
+  document.getElementById('filter-bar').innerHTML = cats.map(c=>
+    `<button class="filter-btn${c===activeFilter?' active':''}" onclick="setFilter('${c}')">${c}</button>`
   ).join('');
 }
 
 function setFilter(cat) {
   activeFilter = cat;
-  document.querySelectorAll('.filter-btn').forEach(b => {
-    b.classList.toggle('active', b.textContent === cat);
-  });
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.toggle('active',b.textContent===cat));
   renderList();
 }
 
 function getFiltered() {
-  const q = searchQuery.toLowerCase();
-  return ALL_ARTICLES.filter(a => {
-    const matchCat = activeFilter === 'All' || a.category === activeFilter;
-    const matchQ = !q || a.title.toLowerCase().includes(q)
-      || a.category.toLowerCase().includes(q)
-      || (a.tags || []).some(t => t.toLowerCase().includes(q))
-      || a.tagline.toLowerCase().includes(q);
-    return matchCat && matchQ;
+  const q = searchQ.toLowerCase();
+  return ALL.filter(a=>{
+    const mc = activeFilter==='All'||a.category===activeFilter;
+    const mq = !q||a.title.toLowerCase().includes(q)||a.category.toLowerCase().includes(q)||(a.tags||[]).some(t=>t.toLowerCase().includes(q))||a.tagline.toLowerCase().includes(q);
+    return mc && mq;
   });
 }
 
 function renderList() {
-  const filtered = getFiltered();
-  const featured = filtered.find(a => a.featured) || filtered[0];
-  const rest = filtered.filter(a => a !== featured);
-
-  // Featured
+  const f = getFiltered();
+  const feat = f.find(a=>a.featured)||f[0];
+  const rest = f.filter(a=>a!==feat);
   const fs = document.getElementById('featured-slot');
-  if (featured) {
-    const cc = catClass(featured.category);
-    fs.innerHTML = `
-      <div class="featured-article" onclick="showDetail('${featured.id}')">
-        <div class="featured-visual visual-${cc}">
-          <div class="featured-grid-bg"></div>
-          <span class="featured-cat-label">${featured.category}</span>
-        </div>
-        <div class="featured-body">
-          <div>
-            <p class="featured-kicker">Featured — ${timeAgo(featured.publishedAt)}</p>
-            <h2 class="featured-title">${featured.title}</h2>
-            <p class="featured-tagline">${featured.tagline}</p>
-          </div>
-          <div class="featured-footer">
-            <span class="article-date">${formatDate(featured.publishedAt)}</span>
-            <span class="read-cta">Read →</span>
-          </div>
-        </div>
-      </div>`;
-    fs.style.display = filtered.length > 0 ? 'block' : 'none';
-  } else {
-    fs.innerHTML = '';
-  }
 
-  // Grid
+  if(feat) {
+    const cc = catColorClass(feat.category);
+    fs.innerHTML = `<div class="featured-article" onclick="showDetail('${feat.id}')">
+      <div class="featured-visual visual-${cc}">
+        <div class="featured-grid-bg"></div>
+        <span class="featured-cat-label">${feat.category}</span>
+      </div>
+      <div class="featured-body">
+        <div>
+          <p class="featured-kicker">Featured — ${timeAgo(feat.publishedAt)}</p>
+          <h2 class="featured-title">${feat.title}</h2>
+          <p class="featured-tagline">${feat.tagline}</p>
+        </div>
+        <div class="featured-footer">
+          <span class="article-date">${fmtDate(feat.publishedAt)}</span>
+          <span class="read-cta">Read →</span>
+        </div>
+      </div>
+    </div>`;
+    fs.style.display='block';
+  } else { fs.innerHTML=''; fs.style.display='none'; }
+
   const grid = document.getElementById('articles-grid');
   const label = document.getElementById('grid-label');
-  if (rest.length === 0 && !featured) {
-    label.style.display = 'none';
-    grid.innerHTML = `<p class="state-msg">No articles found</p>`;
+  if(!rest.length && !feat) {
+    label.style.display='none';
+    grid.innerHTML='<p class="state-msg">No articles found</p>';
   } else {
-    label.style.display = 'flex';
-    label.textContent = activeFilter === 'All' ? 'All Articles' : activeFilter;
-    grid.innerHTML = rest.map((a, i) => {
-      const cc = catClass(a.category);
-      return `
-        <div class="article-card" onclick="showDetail('${a.id}')" style="animation-delay:${i*0.06}s">
-          <span class="card-cat cat-${cc}">${a.category}</span>
-          <h3 class="card-title">${a.title}</h3>
-          <p class="card-tagline">${a.tagline}</p>
-          <div class="card-footer">
-            <span class="article-date">${timeAgo(a.publishedAt)}</span>
-            <div class="tag-list">
-              ${(a.tags||[]).slice(0,2).map(t=>`<span class="tag">${t}</span>`).join('')}
-            </div>
-          </div>
-        </div>`;
-    }).join('') || `<p class="state-msg">No other articles</p>`;
+    label.style.display='flex';
+    label.textContent = activeFilter==='All'?'All Articles':activeFilter;
+    grid.innerHTML = rest.map((a,i)=>{
+      const cc = catColorClass(a.category);
+      return `<div class="article-card" onclick="showDetail('${a.id}')" style="animation-delay:${i*0.06}s">
+        <span class="card-cat cat-${cc}">${a.category}</span>
+        <h3 class="card-title">${a.title}</h3>
+        <p class="card-tagline">${a.tagline}</p>
+        <div class="card-footer">
+          <span class="article-date">${timeAgo(a.publishedAt)}</span>
+          <div class="tag-list">${(a.tags||[]).slice(0,2).map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+        </div>
+      </div>`;
+    }).join('')||'<p class="state-msg">No other articles</p>';
   }
-
-  document.getElementById('article-count').textContent = `${filtered.length} article${filtered.length!==1?'s':''}`;
+  document.getElementById('article-count').textContent = `${f.length} article${f.length!==1?'s':''}`;
 }
 
 function showDetail(id) {
-  const a = ALL_ARTICLES.find(x => x.id === id);
-  if (!a) return;
-  const cc = catClass(a.category);
-  const paragraphs = a.content.split('\n').filter(p => p.trim()).map(p => {
-    const html = p.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  const a = ALL.find(x=>x.id===id);
+  if(!a) return;
+  const cc = catColorClass(a.category);
+  const body = a.content.split('\n').filter(p=>p.trim()).map(p=>{
+    const html = p
+      .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
+      .replace(/`([^`]+)`/g,'<code>$1</code>');
     return `<p>${html}</p>`;
   }).join('');
-
   document.getElementById('detail-content-inner').innerHTML = `
     <span class="detail-cat cat-${cc}">${a.category}</span>
     <h1 class="detail-title">${a.title}</h1>
     <p class="detail-tagline">${a.tagline}</p>
     <div class="detail-meta">
-      <span class="article-date">${formatDate(a.publishedAt)}</span>
+      <span class="article-date">${fmtDate(a.publishedAt)}</span>
       <span class="article-date">${timeAgo(a.publishedAt)}</span>
     </div>
-    <div class="detail-content">${paragraphs}</div>
-    <div class="detail-tags">
-      ${(a.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}
-    </div>`;
-
-  document.getElementById('list-view').style.display = 'none';
-  document.getElementById('controls-wrap').style.display = 'none';
+    <div class="detail-content">${body}</div>
+    <div class="detail-tags">${(a.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div>`;
+  document.getElementById('list-view').style.display='none';
+  document.getElementById('controls-wrap').style.display='none';
   document.getElementById('detail-view').classList.add('visible');
-  window.scrollTo(0, 0);
+  window.scrollTo(0,0);
 }
 
 function showList() {
-  document.getElementById('list-view').style.display = 'block';
-  document.getElementById('controls-wrap').style.display = 'block';
+  document.getElementById('list-view').style.display='block';
+  document.getElementById('controls-wrap').style.display='block';
   document.getElementById('detail-view').classList.remove('visible');
-  window.scrollTo(0, 0);
+  window.scrollTo(0,0);
 }
 
 async function init() {
   try {
     const res = await fetch('articles.json');
-    if (!res.ok) throw new Error('fetch failed');
-    ALL_ARTICLES = await res.json();
-    ALL_ARTICLES.sort((a,b) => new Date(b.publishedAt) - new Date(a.publishedAt));
-  } catch(e) {
-    document.getElementById('articles-grid').innerHTML = `<p class="state-msg">Could not load articles.json</p>`;
-    document.getElementById('article-count').textContent = 'Error';
+    if(!res.ok) throw new Error();
+    ALL = await res.json();
+    ALL.sort((a,b)=>new Date(b.publishedAt)-new Date(a.publishedAt));
+  } catch {
+    document.getElementById('articles-grid').innerHTML='<p class="state-msg">Could not load articles.json</p>';
+    document.getElementById('article-count').textContent='Error';
     return;
   }
-  buildTicker(ALL_ARTICLES);
-  buildFilters(ALL_ARTICLES);
+  buildTicker(ALL);
+  buildFilters(ALL);
   renderList();
-  document.getElementById('footer-date').textContent =
-    `Updated ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}`;
-  document.getElementById('search-input').addEventListener('input', e => {
-    searchQuery = e.target.value;
-    renderList();
-  });
+  document.getElementById('footer-date').textContent = `Updated ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}`;
+  document.getElementById('search-input').addEventListener('input',e=>{searchQ=e.target.value;renderList();});
 }
 
 init();
