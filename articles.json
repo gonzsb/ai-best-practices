@@ -1,0 +1,52 @@
+[
+  {
+    "id": "001",
+    "title": "Prompt Engineering: The Discipline That Separates Amateurs from Practitioners",
+    "category": "Prompting",
+    "tagline": "Structured prompt design isn't a workaround — it's the primary interface layer between human intent and model output. Here's how to think about it systematically.",
+    "content": "Most teams treat prompts as an afterthought. They type a sentence, get a response, and wonder why the output isn't reliable. The discipline of prompt engineering exists precisely because language models are function approximators — and like any function, how you define the input determines the quality of the output.\n\nThe three non-negotiables: context boundary, output specification, and failure mode pre-emption. A well-engineered prompt defines what the model should know (context), what it should produce (format + scope), and what it should not do (guardrails). Omitting any one of these three degrades consistency.\n\nFor enterprise use cases, the most impactful practice is separating system-level instructions from user-level inputs. System prompts define persona, constraints, and output format. User prompts carry the variable task. This separation enables testing, versioning, and rollback — the same principles that govern good software.\n\nOne underused technique: few-shot exemplars with deliberate edge cases. Don't just show the model what a good output looks like. Show it what a tricky input looks like and how to handle it. This dramatically reduces hallucination on boundary conditions.\n\nThe bottom line: treat prompts as code. Version them, test them, review them. The teams building durable AI-powered products are the ones that have prompt libraries, not just prompt experiments.",
+    "tags": ["Prompting", "LLMs", "Enterprise"],
+    "publishedAt": "2025-06-01T09:00:00Z",
+    "featured": true
+  },
+  {
+    "id": "002",
+    "title": "Retrieval-Augmented Generation: When to Use It and When It's Overkill",
+    "category": "Architecture",
+    "tagline": "RAG solves a real problem — but its implementation complexity is consistently underestimated. A practical decision framework for teams evaluating the pattern.",
+    "content": "Retrieval-Augmented Generation has become the default answer to 'how do we give the model access to our internal knowledge?' The answer is right more often than not. But the implementation is harder than most teams anticipate, and the failure modes are subtle.\n\nRAG makes sense when: (1) your knowledge base changes frequently and retraining is impractical, (2) you need source attribution for compliance or trust reasons, (3) the context window alone cannot hold all relevant information. It does not make sense when your knowledge base is small and stable — in that case, a well-crafted system prompt with embedded knowledge is simpler, cheaper, and more reliable.\n\nThe three most common RAG failures: retrieval precision (the wrong chunks come back), chunk boundary artifacts (answers split across chunks lose coherence), and embedding drift (the embedding model and the generation model have misaligned semantic spaces).\n\nPractical mitigations: use hybrid search (dense + sparse/BM25) instead of pure vector search — it dramatically improves retrieval on exact-match queries like product names or IDs. Implement a re-ranking step before passing chunks to the generator. And always instrument retrieval separately from generation; you cannot debug a RAG system if you cannot see what it retrieved.\n\nFor most organizations, the right entry point is not building RAG from scratch — it's using a managed pipeline (LlamaIndex, LangChain, or a vendor solution) and treating the retrieval configuration as the primary optimization surface.",
+    "tags": ["RAG", "Architecture", "LLMs"],
+    "publishedAt": "2025-05-28T10:30:00Z",
+    "featured": false
+  },
+  {
+    "id": "003",
+    "title": "Evaluating AI Output Quality: Beyond Vibes and Into Metrics",
+    "category": "Evaluation",
+    "tagline": "Subjective review doesn't scale. The teams shipping reliable AI products have moved to systematic evaluation frameworks — here's what they look like in practice.",
+    "content": "The most common failure mode in AI product development is shipping based on demos. The demo worked. The edge cases didn't. Without a structured evaluation framework, you have no way to know the difference before your users find out.\n\nThe evaluation stack has three layers. The first is automated metrics: ROUGE, BERTScore, or task-specific metrics like F1 for extraction tasks. These are fast and cheap but measure surface similarity, not semantic quality. Use them for regression testing — catching when a model update breaks something that used to work.\n\nThe second layer is LLM-as-judge: using a separate model (typically a larger, more capable one) to evaluate the output of your production model. This scales better than human review and catches semantic errors that automated metrics miss. The key is prompt design for the judge — define the evaluation rubric explicitly, use a structured output format (e.g. JSON with scores and reasoning), and validate the judge's outputs against a human-labeled ground truth set before trusting it.\n\nThe third layer is human evaluation — irreplaceable for subjective quality dimensions like tone, brand alignment, or ethical judgment. The best practice is a structured annotation protocol with inter-annotator agreement measurement. If two human reviewers disagree more than 20% of the time, your rubric needs refinement before the data is useful.\n\nThe teams doing this well maintain an eval dataset that grows with every production failure. Every time a user reports a bad output, it becomes a test case. This is how you build a system that gets reliably better over time.",
+    "tags": ["Evaluation", "Quality", "MLOps"],
+    "publishedAt": "2025-05-22T14:00:00Z",
+    "featured": false
+  },
+  {
+    "id": "004",
+    "title": "AI Governance in Practice: What a Minimal Viable Policy Looks Like",
+    "category": "Governance",
+    "tagline": "Most AI governance frameworks are either too abstract to implement or too prescriptive to survive contact with real product development. Here's a pragmatic middle path.",
+    "content": "AI governance is not a compliance checkbox — it's a risk management function. The organizations that treat it as the former end up with policies that exist on paper and are ignored in practice. The ones that treat it as the latter build governance into the product development lifecycle from the start.\n\nA minimal viable AI policy for a mid-sized organization covers four areas: use case classification, data handling, human oversight requirements, and incident response. Use case classification determines which applications require heightened review (anything that makes decisions affecting people directly is automatically high-risk). Data handling defines what training data and inference inputs are permissible under existing privacy obligations. Human oversight specifies where an AI decision must be reviewed by a human before action — and who is accountable. Incident response defines how to detect, contain, and communicate when an AI system produces harmful or incorrect output at scale.\n\nThe governance mistake that wastes the most time: trying to solve everything before shipping anything. The risk classification and incident response procedures are non-negotiable from day one. The deeper policy work can be iterative.\n\nOne underrated governance tool: a mandatory pre-deployment checklist. Before any AI feature ships to production, the team completes a documented review covering data lineage, failure mode analysis, and human override capability. It takes 30 minutes and catches the majority of governance gaps before they become incidents.",
+    "tags": ["Governance", "Policy", "Enterprise"],
+    "publishedAt": "2025-05-15T08:00:00Z",
+    "featured": false
+  },
+  {
+    "id": "005",
+    "title": "Fine-Tuning vs. Prompting: The Decision Nobody Makes Carefully Enough",
+    "category": "Architecture",
+    "tagline": "Fine-tuning is expensive, slow, and often unnecessary. Prompting is fast, flexible, and often underestimated. The decision between them deserves a rigorous framework.",
+    "content": "The question 'should we fine-tune?' comes up in almost every serious AI implementation. The answer, more often than practitioners want to hear, is: not yet.\n\nFine-tuning makes sense in three scenarios: (1) you need consistent style or format that cannot be reliably produced through prompting alone, (2) you have domain-specific vocabulary or knowledge that isn't well-represented in the base model, (3) you have latency or cost constraints that require a smaller, specialized model to match the quality of a larger general one. In all other cases, exhausting the prompt engineering surface first is the right move.\n\nWhy? Because fine-tuning creates a maintenance burden. Every model update, every new capability you want to incorporate, requires re-running the fine-tuning pipeline. The prompt-based approach inherits improvements from the base model automatically.\n\nWhen you do decide to fine-tune, the quality of the training data is the only variable that matters. A fine-tuned model trained on 500 high-quality, carefully reviewed examples consistently outperforms one trained on 5,000 automatically generated examples. Invest the curation time upfront.\n\nThe emerging middle ground worth watching: parameter-efficient fine-tuning methods like LoRA and QLoRA. These allow task-specific adaptation at a fraction of the compute cost of full fine-tuning, making the economics more favorable for specialized enterprise use cases.",
+    "tags": ["Fine-tuning", "Architecture", "LLMs"],
+    "publishedAt": "2025-05-08T11:00:00Z",
+    "featured": false
+  }
+]
